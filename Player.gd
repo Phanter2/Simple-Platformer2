@@ -17,8 +17,15 @@ func _physics_process(delta:float) -> void:
 	
 	if input.x == 0:
 		apply_friction()
+		$AnimatedSprite.animation = "Idle"
 	else:
 		apply_acceleration(input.x)
+		$AnimatedSprite.animation = "Run"
+		if input.x > 0:
+			$AnimatedSprite.flip_h = true
+		elif input.x < 0:
+			$AnimatedSprite.flip_h = false
+			
 	# gravity
 	velocity.y += 4
 	
@@ -27,6 +34,7 @@ func _physics_process(delta:float) -> void:
 		if	Input.is_action_just_pressed("ui_up"):
 			velocity.y = JUMP_FORCE
 	else:
+		$AnimatedSprite.animation = "Jump"
 		if Input.is_action_just_released("ui_up") and velocity.y < JUMP_RELEASE_FORCE:
 			velocity.y = JUMP_RELEASE_FORCE
 			
@@ -35,8 +43,13 @@ func _physics_process(delta:float) -> void:
 
 
 	# apply movement to the player		
+	var was_in_air = not is_on_floor()
 	velocity = move_and_slide(velocity, Vector2.UP)
-
+	var just_landed = is_on_floor() and was_in_air
+	if just_landed:
+		$AnimatedSprite.animation = "Run"
+		$AnimatedSprite.frame = 1
+	
 func apply_gravity():
 	# gravity
 	velocity.y += GRAVITY
