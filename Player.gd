@@ -1,8 +1,9 @@
 extends KinematicBody2D
+class_name Player
 
-export(int) var JUMP_FORCE = -130
-export(int) var JUMP_RELEASE_FORCE = -70
-export(int) var MAX_SPEED = 50
+export(int) var JUMP_FORCE = -200
+export(int) var JUMP_RELEASE_FORCE = -100
+export(int) var MAX_SPEED = 100
 export(int) var ACCELERATION = 10
 export(int) var FRICTION = 10
 export(int) var GRAVITY = 4
